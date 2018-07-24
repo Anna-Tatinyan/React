@@ -2,28 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-var currentTurn = "";
-
 class Square extends React.Component {
 	constructor(props) {
 		super();
 
 		this.state = {
 			squareText: "",
-			clicked: false
 		}
 	}
   render() {
 
     return (
 
-      <button className="square" onClick={ () => { 
-      		if (!(this.state.clicked)) {
-      			currentTurn = currentTurn === "X" ? currentTurn = "O" : currentTurn = "X";
-      			this.setState({squareText: currentTurn,clicked: true})
-      		} 
-      } }>
-        	{this.state.squareText}
+      <button className="square" onClick={ this.props.onClick }>
+        	{this.props.value}
       </button>
     );
   }
@@ -33,17 +25,32 @@ class Square extends React.Component {
 class Board extends React.Component {
 
 	constructor(props) {
-		super(props);
+		super();
 		this.state = {
-			status: "Next Player: X"
+			status: "Next Player: ",
+      squares: Array(9).fill(null),
+      xIsNext: true
 		}
 	}
+
+  handleClick(i){
+    const squares = this.state.squares;
+    const xIsNext = this.state.xIsNext;
+
+    if (squares[i] !== null){ // or winner ka
+      return;
+    }
+    squares[i] = xIsNext ? "X" : "O";
+    this.setState({squares , xIsNext: !xIsNext});
+    //winner function
+  }
+
   renderSquare(i) {
-    return <Square squareNumber = {i}/>;
+    return <Square value = {this.state.squares[i]} onClick={() => this.handleClick(i)} />;
   }
 
   render() {
-  	var status = this.state.status
+  	var status = this.state.status;
     return (
       <div>
       	<div className="status">{status}</div>
