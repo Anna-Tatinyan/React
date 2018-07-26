@@ -11,7 +11,6 @@ const initialState = {
 export const reducer = (state = initialState, action) => {
 	switch(action.type){
 		case "MOVE": 
-			debugger;
 			let history = state.history.slice(0,state.stepNumber+1);
 			const current = history[state.stepNumber];
 			const squares = current.squares.slice();
