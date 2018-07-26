@@ -1,7 +1,8 @@
-export function move(i) {
+export function move(squareNumber) {
 	return {
+
 		type: "MOVE",
-		i
+		squareNumber
 	};
 }
 

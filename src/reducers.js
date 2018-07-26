@@ -11,32 +11,33 @@ const initialState = {
 export const reducer = (state = initialState, action) => {
 	switch(action.type){
 		case "MOVE": 
+			debugger;
 			let history = state.history.slice(0,state.stepNumber+1);
-			const current = history[history.length-1];
+			const current = history[state.stepNumber];
 			const squares = current.squares.slice();
 
-			if (calculateWinner(squares) || squares[action.i] !== null){
+			if (calculateWinner(squares) || squares[action.squareNumber] !== null){
 				break;
 			}
-			squares[action.i] = state.xIsNext ? "X" : "O";
-			history.concat([{squares}]);
+			squares[action.squareNumber] = state.xIsNext ? "X" : "O";
+			history = history.concat([{squares}]);
 
 			state = {
 				...state,
 				history,
-				stepNumber:history.length
+				stepNumber:history.length-1,
+				xIsNext: !state.xIsNext
 			};
 			break;
 		case "JUMP": 
 			state = {
 				...state,
 				stepNumber: action.move,
-				xIsNext: action.move%2 === 0
+				xIsNext: (action.move%2) === 0
 			};
-			break;
-		default:
-			return state;	
+			break;	
 	}
+	return state;
 }
 
 
@@ -60,5 +61,3 @@ export function calculateWinner(squares) {
   }
   return null;
 }
-
-export default reducer;
