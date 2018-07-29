@@ -1,4 +1,11 @@
+ul, li {
+  list-style: none;
+}
 
+.winner-list li {
+  margin : 2px;
+  padding: 0px;
+}
 body {
   font: 25px "Century Gothic", Futura, sans-serif;
   margin: 20px;
